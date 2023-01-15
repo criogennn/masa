@@ -8,6 +8,8 @@ const rpcURL = '' // Нода гоерли
 const web3 = new Web3(rpcURL)
 
 const faucetKey = '' //ключ аккаунта с которого раскидываете эфир
+const faucetAddress = '' // адрес аккаунта с которого раскидываете эфир
+const masaCookie = '' // куки масы
 
 let privateKeys = []
 let addresses = []
@@ -21,7 +23,7 @@ const headers = {
     headers: {
         'authority': 'beta.middleware.masa.finance',
         'accept-language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7',
-        'cookie': '', //куки от масы
+        'cookie': masaCookie, //куки от масы
         'origin': 'https://beta.claimyoursoul.masa.finance',
         'referer': 'https://beta.claimyoursoul.masa.finance/',
         'sec-ch-ua': '"Not_A Brand";v="99", "Google Chrome";v="109", "Chromium";v="109"',
@@ -105,7 +107,7 @@ async function singleCall(tx, privateKey){
 }
 
 async function disperse(){
-    let nonce = await web3.eth.getTransactionCount('') // адрес аккаунта откуда разбрасывать эфир
+    let nonce = await web3.eth.getTransactionCount(faucetAddress) // адрес аккаунта откуда разбрасывать эфир
     for(i of addresses){
         let tx = {
             to: i,
@@ -120,12 +122,12 @@ async function disperse(){
 }
 
 async function main(){
-    // generateAccounts(5) // генерирует аккаунты и записывает их в файл
+    // generateAccounts(5) // генерирует аккаунты(колво писать в скобках) и записывает их в файл
     await setAccounts()
     console.log(addresses)
     console.log(privateKeys)
 
-    // await disperse() // раскидывает эфир на все аккаунты из файла
+    //await disperse() // раскидывает эфир на все аккаунты из файла
 
     for(i of privateKeys){
         let account = web3.eth.accounts.privateKeyToAccount(i)
